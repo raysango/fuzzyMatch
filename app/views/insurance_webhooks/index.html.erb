@@ -1,0 +1,32 @@
+<%= form_tag(match_insurance_webhooks_path, {id: "range_form", method: :put}) do %>
+  <% if @webhook_matches.present? %>
+    <% @webhook_matches.each do |wh_id, matches| %>
+      <div class="row" style="border-bottom: 1px solid black;padding-bottom: 10px;">
+        <div class="header" style="margin-top: 25px;">
+          <%= "Please select a match for #{matches.first.plan_name}" %>
+        </div>
+        <% if matches.first.try(:insurance_name) %>
+          <% matches.each do |match| %>
+            <div class="form-check form-check-inline" style="margin-top: 25px;">
+              <input class="form-check-input" type="radio" name="insurance_whs[<%= wh_id %>]" id="wh_<%= wh_id %>" value="<%= match.insurance_id %>">
+              <label class="form-check-label" for="inlineRadio1"><%= match.insurance_name %></label>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="form-check form-check-inline" style="margin-top: 25px;">
+            <%= "No matches found." %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="row" style="margin-top: 25px;">
+      <%= submit_tag "Match", class: "button" %>
+    </div>
+  <% else %>
+    <div class="row" style="border-bottom: 1px solid black;padding-bottom: 10px;">
+      <div class="header" style="margin-top: 25px;">
+        <%= "No pending webhooks available." %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
