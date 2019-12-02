@@ -5,7 +5,7 @@ class Insurance < ActiveRecord::Base
   class << self
 
     def get_insurance(text)
-      return [] unless text.present?
+      return unless text.present?
       where("lower(name) = ?", text.downcase).last
     end
 
