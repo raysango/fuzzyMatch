@@ -1,5 +1,5 @@
 class InsuranceWebhook < ActiveRecord::Base
-  validates :status, inclusion: { in: ['pending', 'matched'] }
+  validates :status, inclusion: { in: ['pending', 'matched', 'format_error'] }
   MATCH_RATE = 0.2.freeze
   class << self
     def get_pending_whs_with_matches

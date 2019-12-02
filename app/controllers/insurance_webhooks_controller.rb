@@ -2,12 +2,17 @@ class InsuranceWebhooksController < ApplicationController
   skip_before_action  :verify_authenticity_token
 
   def create
-    matching_insurance = Insurance.get_insurance(params['Plan']['Name']) || InsuranceMatch.get_match(params['Plan']['Name'])
-    if matching_insurance.present?
-      InsuranceWebhook.create(status: 'matched', wh_data: params, insurance_id: matching_insurance.insurance_id)
+    if params['Plan'].present? && params['Plan']['Name'].present?
+      matching_insurance = Insurance.get_insurance(params['Plan']['Name']) || InsuranceMatch.get_match(params['Plan']['Name'])
+      if matching_insurance.present?
+        InsuranceWebhook.create(status: 'matched', wh_data: params, insurance_id: matching_insurance.insurance_id)
+      else
+        InsuranceWebhook.create(status: 'pending', wh_data: params)
+      end
     else
-      InsuranceWebhook.create(status: 'pending', wh_data: params)
+      InsuranceWebhook.create(status: 'format_error', wh_data: params)
     end
+    head :ok
   end
 
   def index
