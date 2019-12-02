@@ -66,7 +66,9 @@ insurance object example:
    - A list of pending webhooks with no insurance match will be represented on /insurance_webhooks action_type: GET with matching insurance objects with the option to assign an insurance object to each webhook if matching objects were found.
 
 
-* Things that can be added:
+Load test data: bundle exec rake test_data:create
+
+Things that can be added:
 
 - Add the option to create an insurance object if no match was found for a webhook.
 - Add pagination to /insurance_webhooks to accommodate large numbers of un matched webhooks.
